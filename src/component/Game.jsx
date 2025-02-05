@@ -11,9 +11,12 @@ const Game = () => {
   const [score, setScore] = useState(0);
   const [isCorrect, setIsCorrect] = useState(false);
   const [hasGuessed, setHasGuessed] = useState(false);
+  const [guessCount, setGuessCount] = useState(0);
+
 
   const handleGuessed = (selectedColor) => {
     setHasGuessed(true);
+    setGuessCount((prevCount) => prevCount + 1);
 
     if (selectedColor === randomColor) {
       setIsCorrect(true);
@@ -47,8 +50,24 @@ const Game = () => {
       {hasGuessed && <ColorBox color={randomColor} hasGuessed={hasGuessed} />}
 
       <ColorOption colors={colors} hasGuessed={hasGuessed} handlePlay={handleGuessed} />
-      <GameStatus score={score} />
-      <NewGameButton startNewGame={startNewGame} />
+      <h3 className="text-lg font-semibold mt-2">
+        Guess: {guessCount}/50
+      </h3>
+      <GameStatus score={score} isCorrect={isCorrect} hasGuessed={hasGuessed} />
+      {
+        guessCount >= 10 ?(
+          <button
+          onClick={startNewGame} 
+          data-testid="newGameButton" 
+          className="mt-4 px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md transition-all"
+          >
+             Start New Game
+            
+          </button>
+
+        ) : (
+          <NewGameButton startNewGame={startNewGame} />)
+      }
     </div>
   );
 };
