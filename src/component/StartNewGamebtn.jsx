@@ -1,14 +1,19 @@
 import React from "react";
 
-const NewGameButton = ({ startNewGame }) => {
+const NewGameButton = ({ startNewGame, guessCount }) => {
   return (
-    <button
-      data-testid="newGameButton"
-      className="mt-6 px-6 py-3 bg-blue-600 text-white font-bold rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-      onClick={startNewGame}
-    >
-      New Game
-    </button>
+  <div>
+   
+      <button 
+        onClick={startNewGame} 
+        data-testid="newGameButton" 
+        className="mt-4 px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md transition-all"
+      >
+        Start New Game
+       
+      </button>
+   
+  </div>
   );
 };
 

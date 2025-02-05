@@ -15,6 +15,7 @@ const Game = () => {
 
 
   const handleGuessed = (selectedColor) => {
+    if (guessCount >= 50) return;
     setHasGuessed(true);
     setGuessCount((prevCount) => prevCount + 1);
 
@@ -30,14 +31,20 @@ const Game = () => {
     // Show color box briefly before changing it
     setTimeout(() => {
       setHasGuessed(false);
-      setRandomColor(colors[Math.floor(Math.random() * colors.length)]); // Change color after guess
-    }, 1000); 
+      if (guessCount + 1 === 50) {
+        setGameMessage("🎉 Congratulations! You've finished your round. Click to start a new game!");
+      } else {
+        setRandomColor(colors[Math.floor(Math.random() * colors.length)]);
+      }
+    }, 1000);
+
   };
 
   const startNewGame = () => {
     setRandomColor(colors[Math.floor(Math.random() * colors.length)]);
     setGameMessage('Guess the correct color');
     setScore(0);
+    setGuessCount(0);
     setIsCorrect(false);
     setHasGuessed(false);
   };
@@ -54,20 +61,7 @@ const Game = () => {
         Guess: {guessCount}/50
       </h3>
       <GameStatus score={score} isCorrect={isCorrect} hasGuessed={hasGuessed} />
-      {
-        guessCount >= 10 ?(
-          <button
-          onClick={startNewGame} 
-          data-testid="newGameButton" 
-          className="mt-4 px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md transition-all"
-          >
-             Start New Game
-            
-          </button>
-
-        ) : (
-          <NewGameButton startNewGame={startNewGame} />)
-      }
+      <NewGameButton startNewGame={startNewGame} guessCount={guessCount} />
     </div>
   );
 };
